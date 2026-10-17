@@ -1,0 +1,74 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Visual Studio Code
+.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins-dependencies
+.flutter-plugins
+.pub-cache/
+.pub/
+/build/
+/coverage/
+
+# Android Studio & Gradle
+.gradle/
+android/.gradle/
+local.properties
+android/local.properties
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# CMake & NDK Native Build Artifacts
+android/app/.cxx/
+android/.cxx/
+**/.cxx/
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+CMakeFiles/
+CMakeCache.txt
+
+# Archive and Distribution files
+*.apk
+*.aab
+*.zip
+
+# Large AI Models & Weights
+*.gguf
+*.safetensors
+*.ckpt
+*.pt
+*.bin
+*.onnx
+
+# Symbolication & Obfuscation
+app.*.symbols
+app.*.map.json
+
+# Widget Preview related
+.widget_preview/
