@@ -189,12 +189,16 @@ class SdIsolateWorker {
     try {
       logCallable = NativeCallable<SdBridgeLogCbNative>.listener(
         (int level, Pointer<Utf8> textPtr) {
-          if (textPtr != nullptr) {
-            final line = textPtr.toDartString().trim();
-            if (line.isNotEmpty) {
-              final stage = _inferStageFromLog(line);
-              uiSendPort.send(SdLogResponse(text: line, stage: stage));
+          try {
+            if (textPtr != nullptr) {
+              final line = textPtr.toSafeDartString().trim();
+              if (line.isNotEmpty) {
+                final stage = _inferStageFromLog(line);
+                uiSendPort.send(SdLogResponse(text: line, stage: stage));
+              }
             }
+          } catch (e) {
+            debugPrint('[WorkerIsolate] Suppressed native log decoding error: $e');
           }
         },
       );
@@ -317,7 +321,14 @@ class SdIsolateWorker {
         completionCallable = NativeCallable<SdBridgeCompletionCbNative>.listener(
           (int statusCode, Pointer<Utf8> msgOrPathPtr) {
             stopwatch.stop();
-            final msgOrPath = msgOrPathPtr != nullptr ? msgOrPathPtr.toDartString() : '';
+            String msgOrPath = '';
+            try {
+              if (msgOrPathPtr != nullptr) {
+                msgOrPath = msgOrPathPtr.toSafeDartString();
+              }
+            } catch (e) {
+              debugPrint('[WorkerIsolate] Completion callback decode error: $e');
+            }
             debugPrint('[WorkerIsolate] Completion callback: statusCode=$statusCode, msgOrPath=$msgOrPath in ${stopwatch.elapsedMilliseconds}ms');
 
             if (statusCode == 0) {

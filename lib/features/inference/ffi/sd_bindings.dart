@@ -1,5 +1,8 @@
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
+import 'ffi_safe_string.dart';
+
+export 'ffi_safe_string.dart';
 
 // Native function typedefs for FFI mapping
 typedef SdBridgeProgressCbNative = Void Function(
@@ -272,7 +275,12 @@ class SdBindings {
   String getSystemInfo() {
     final ptr = _getSystemInfo();
     if (ptr == nullptr) return 'Unknown';
-    return ptr.toDartString();
+    try {
+      final info = ptr.toSafeDartString();
+      return info.isNotEmpty ? info : 'Unknown';
+    } catch (_) {
+      return 'Unknown';
+    }
   }
 }
 
